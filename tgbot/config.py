@@ -5,7 +5,7 @@ from environs import Env
 
 
 @dataclass
-class DbConfig:
+class DbConfigPostgre:
     """
     Database configuration class.
     This class holds the settings for the database, such as host, password, port, etc.
@@ -62,9 +62,18 @@ class DbConfig:
         user = env.str("POSTGRES_USER")
         database = env.str("POSTGRES_DB")
         port = env.int("DB_PORT", 5432)
-        return DbConfig(
+        return DbConfigPostgre(
             host=host, password=password, user=user, database=database, port=port
         )
+
+
+@dataclass
+class DbConfig:
+
+    path: str = "database.db"
+
+    def construct_sqlite_url(self) -> str:
+        return f"sqlite+aiosqlite:///{self.path}"
 
 
 @dataclass
@@ -187,7 +196,7 @@ def load_config(path: str = None) -> Config:
 
     return Config(
         tg_bot=TgBot.from_env(env),
-        # db=DbConfig.from_env(env),
+        db=DbConfig(),
         # redis=RedisConfig.from_env(env),
         misc=Miscellaneous(),
     )

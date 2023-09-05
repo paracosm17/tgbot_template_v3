@@ -62,3 +62,8 @@ venv.bak/
 .idea/
 .env
 cache/
+
+# DB
+*.db
+*.sqlite
+*.sqlite3

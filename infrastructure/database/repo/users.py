@@ -1,5 +1,5 @@
 from typing import Optional
-
+import datetime
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
 
@@ -38,6 +38,7 @@ class UserRepo(BaseRepo):
                 set_=dict(
                     username=username,
                     full_name=full_name,
+                    updated_at=datetime.datetime.now()
                 ),
             )
         )
